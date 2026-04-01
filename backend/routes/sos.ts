@@ -34,6 +34,11 @@ export const sosRoutes = new Elysia({ prefix: '/api' }).post(
       userId: t.String({ minLength: 1 }),
       phone: t.Optional(t.String()),
       message: t.Optional(t.String())
-    })
+    }),
+    detail: {
+      summary: 'Trigger an SOS alert',
+      description: 'Creates an SOS alert and emits real-time alert events to connected clients.',
+      tags: ['Alerts']
+    }
   }
 );

@@ -32,7 +32,12 @@ export const reminderRoutes = new Elysia({ prefix: '/api/reminder' })
         time: t.String({ minLength: 1 }),
         dosage: t.String({ minLength: 1 }),
         quantity: t.Number({ minimum: 1 })
-      })
+      }),
+      detail: {
+        summary: 'Add a medicine reminder',
+        description: 'Creates a reminder for a user and auto-creates the demo user record if needed.',
+        tags: ['Reminders']
+      }
     }
   )
   .get(
@@ -58,6 +63,11 @@ export const reminderRoutes = new Elysia({ prefix: '/api/reminder' })
     {
       query: t.Object({
         userId: t.String({ minLength: 1 })
-      })
+      }),
+      detail: {
+        summary: 'List reminders for a user',
+        description: 'Fetches all reminders for a given user id ordered by reminder time.',
+        tags: ['Reminders']
+      }
     }
   );

@@ -28,6 +28,12 @@ export const statusRoutes = new Elysia({ prefix: '/api/status' }).post(
       phone: t.Optional(t.String()),
       status: t.Union([t.Literal('taken'), t.Literal('later'), t.Literal('skip')]),
       timestamp: t.Optional(t.String())
-    })
+    }),
+    detail: {
+      summary: 'Update medicine status',
+      description:
+        'Stores a taken/later/skip action for a medicine dose. A skipped dose also creates a missed alert.',
+      tags: ['Status']
+    }
   }
 );

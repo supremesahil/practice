@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@elysiajs/cors": "latest",
+    "@elysiajs/openapi": "latest",
     "@supabase/supabase-js": "latest",
     "elysia": "latest",
     "socket.io": "latest"

@@ -1,4 +1,5 @@
 import { cors } from '@elysiajs/cors';
+import { openapi } from '@elysiajs/openapi';
 import { Elysia } from 'elysia';
 import { burnoutRoutes } from './routes/burnout';
 import { reminderRoutes } from './routes/reminder';
@@ -18,16 +19,47 @@ const app = new Elysia()
       origin: true
     })
   )
-  .get('/', () => ({
-    success: true,
-    message: 'Remote Care Companion backend is running',
-    data: {
-      httpPort: port,
-      socketPort,
-      mode: getDataMode(),
-      note: getRuntimeNote()
+  .use(
+    openapi({
+      path: '/swagger',
+      provider: 'swagger-ui',
+      documentation: {
+        info: {
+          title: 'Remote Care Companion API',
+          version: '1.0.0',
+          description:
+            'Hackathon demo backend for reminders, dose tracking, SOS alerts, and burnout checks.'
+        },
+        tags: [
+          { name: 'Health', description: 'Basic service health and runtime mode' },
+          { name: 'Reminders', description: 'Reminder creation and listing' },
+          { name: 'Status', description: 'Medicine dose status updates' },
+          { name: 'Alerts', description: 'SOS and alert-triggering endpoints' },
+          { name: 'Wellbeing', description: 'Burnout assessment endpoint' }
+        ]
+      }
+    })
+  )
+  .get(
+    '/',
+    () => ({
+      success: true,
+      message: 'Remote Care Companion backend is running',
+      data: {
+        httpPort: port,
+        socketPort,
+        mode: getDataMode(),
+        note: getRuntimeNote()
+      }
+    }),
+    {
+      detail: {
+        summary: 'Health check',
+        description: 'Returns server status, ports, and whether the app is using Supabase or mock mode.',
+        tags: ['Health']
+      }
     }
-  }))
+  )
   .use(reminderRoutes)
   .use(statusRoutes)
   .use(sosRoutes)

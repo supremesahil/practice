@@ -45,6 +45,11 @@ export const burnoutRoutes = new Elysia({ prefix: '/api' }).post(
     body: t.Object({
       userId: t.Optional(t.String()),
       mood: t.String({ minLength: 1 })
-    })
+    }),
+    detail: {
+      summary: 'Assess burnout level',
+      description: 'Returns a simple low, medium, or high burnout level based on the submitted mood.',
+      tags: ['Wellbeing']
+    }
   }
 );

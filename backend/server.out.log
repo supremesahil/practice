@@ -1,0 +1,3 @@
+[socket] listening on http://localhost:3001
+[server] Remote Care Companion API running at http://localhost:3000
+[server] Data mode: supabase | Supabase mode enabled.
