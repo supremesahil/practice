@@ -1,0 +1,20 @@
+{
+  "name": "remote-care-companion-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch index.ts",
+    "start": "bun index.ts",
+    "typecheck": "bun ./node_modules/typescript/bin/tsc --noEmit"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "latest",
+    "@supabase/supabase-js": "latest",
+    "elysia": "latest",
+    "socket.io": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "latest"
+  }
+}
