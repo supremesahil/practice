@@ -15,10 +15,11 @@ Demo-ready backend for a healthcare app using Bun, Elysia, TypeScript, Supabase,
 ```text
 /backend
   index.ts
-  package.json
+  package.jsonF
   tsconfig.json
   .env.example
-  supabase-schema.sql
+  migrations/
+    supabase-schema.sql
   types.ts
   routes/
     reminder.ts
@@ -78,7 +79,7 @@ SUPABASE_ANON_KEY=your-supabase-anon-key
 
 ## Supabase Schema
 
-Run the SQL in [backend/supabase-schema.sql](/C:/Users/aanch/practice/backend/supabase-schema.sql) inside Supabase SQL Editor.
+Run the SQL in [backend/migrations/supabase-schema.sql](/C:/Users/aanch/practice/backend/migrations/supabase-schema.sql) inside Supabase SQL Editor.
 
 ## API Examples
 
