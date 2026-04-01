@@ -37,6 +37,35 @@ const demoPhoneForUser = (userId: string) => {
   return `+91${compactId.padEnd(10, '0')}`;
 };
 
+const formatSupabaseError = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (typeof error === 'object' && error !== null) {
+    const errorObject = error as Record<string, unknown>;
+
+    const parts = [
+      typeof errorObject.message === 'string' ? errorObject.message : null,
+      typeof errorObject.details === 'string' && errorObject.details ? errorObject.details : null,
+      typeof errorObject.hint === 'string' && errorObject.hint ? `hint: ${errorObject.hint}` : null,
+      typeof errorObject.code === 'string' && errorObject.code ? `code: ${errorObject.code}` : null
+    ].filter(Boolean);
+
+    if (parts.length > 0) {
+      return parts.join(' | ');
+    }
+
+    try {
+      return JSON.stringify(errorObject);
+    } catch {
+      return 'Unknown Supabase error';
+    }
+  }
+
+  return typeof error === 'string' ? error : 'Unknown Supabase error';
+};
+
 const switchToMockMode = (reason: string) => {
   runtimeState.usingMock = true;
   runtimeState.note = `${reason}. Falling back to in-memory demo mode.`;
@@ -55,7 +84,7 @@ const runWithFallback = async <T>(
   try {
     return await supabaseOperation();
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown Supabase error';
+    const message = formatSupabaseError(error);
     switchToMockMode(`${label} failed: ${message}`);
     return await mockOperation();
   }
