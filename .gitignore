@@ -1,6 +1,0 @@
-backend/node_modules
-backend/.env
-backend/bun.lock
-frontend/node_modules
-frontend/.next
-frontend/.env.local
