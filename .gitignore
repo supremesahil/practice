@@ -2,3 +2,4 @@ backend/node_modules
 backend/.env
 backend/bun.lock
 auth
+ai-module/.env
