@@ -1,0 +1,15 @@
+{
+  "name": "remote-care-companion-whatsapp-bot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.9",
+    "node-cron": "^3.0.3",
+    "pino": "^9.3.2",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
