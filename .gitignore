@@ -4,3 +4,4 @@ backend/bun.lock
 auth
 ai-module/.env
 ai-module/user-preferences.json
+node_modules/
