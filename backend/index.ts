@@ -7,6 +7,7 @@ import { sosRoutes } from './routes/sos';
 import { statusRoutes } from './routes/status';
 import { getDataMode, getRuntimeNote } from './db/supabase';
 import { initializeSocketServer } from './socket/socket';
+import { geminiRoutes } from '../gemini-module/index';
 
 const port = Number(Bun.env.PORT ?? 3000);
 const socketPort = Number(Bun.env.SOCKET_PORT ?? 3001);
@@ -64,6 +65,7 @@ const app = new Elysia()
   .use(statusRoutes)
   .use(sosRoutes)
   .use(burnoutRoutes)
+  .use(geminiRoutes)
   .onError(({ code, error, set }) => {
     const message = error instanceof Error ? error.message : 'Request failed';
 
