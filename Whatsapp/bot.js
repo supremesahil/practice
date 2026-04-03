@@ -14,6 +14,20 @@ const logger = pino({ level: process.env.LOG_LEVEL ?? 'silent' });
 
 const patientState = createPatientState();
 
+// Show only one QR per connection attempt to avoid terminal spam while
+// WhatsApp keeps rotating fresh QR payloads in the background.
+let hasDisplayedQRForCurrentAttempt = false;
+
+function renderQrCode(qr) {
+  qrcode.generate(qr, { small: true }, (renderedQr) => {
+    // Normalize the generated block so PowerShell doesn't add odd trailing space
+    // lines that can make the QR look stretched.
+    const normalizedQr = renderedQr.replace(/\s+$/, '');
+    process.stdout.write('[bot] Scan the QR code below to connect WhatsApp:\n');
+    process.stdout.write(`${normalizedQr}\n`);
+  });
+}
+
 async function startBot() {
   const { state, saveCreds } = await useMultiFileAuthState(AUTH_DIR);
   const { version } = await fetchLatestBaileysVersion();
@@ -34,12 +48,13 @@ async function startBot() {
   sock.ev.on('creds.update', saveCreds);
 
   sock.ev.on('connection.update', async ({ connection, qr, lastDisconnect }) => {
-    if (qr) {
-      qrcode.generate(qr, { small: true });
-      console.log('[bot] Scan the QR code above to connect WhatsApp.');
+    if (qr && !hasDisplayedQRForCurrentAttempt) {
+      hasDisplayedQRForCurrentAttempt = true;
+      renderQrCode(qr);
     }
 
     if (connection === 'open') {
+      hasDisplayedQRForCurrentAttempt = false;
       console.log('[bot] WhatsApp bot is connected.');
       scheduler.start();
     }
@@ -48,6 +63,7 @@ async function startBot() {
       const statusCode = lastDisconnect?.error?.output?.statusCode;
       const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
 
+      hasDisplayedQRForCurrentAttempt = false;
       scheduler.stop();
       console.log(`[bot] Connection closed. Reconnect: ${shouldReconnect}`);
 
