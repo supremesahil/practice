@@ -1,0 +1,12 @@
+{
+  "query": "What medicines am I taking?",
+  "userId": "patient-1",
+  "reminders": [
+    {
+      "quantity": 10,
+      "time": "8 AM",
+      "dosage": "500mg",
+      "medicine": "Aspirin"
+    }
+  ]
+}
